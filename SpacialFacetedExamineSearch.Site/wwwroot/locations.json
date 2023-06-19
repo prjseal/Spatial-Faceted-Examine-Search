@@ -1,0 +1,29 @@
+﻿[
+  {
+    "Id": 1,
+    "Name": "London",
+    "Lat": 51.5074,
+    "Long": -0.1278,
+    "Url": "https://en.wikipedia.org/wiki/London",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/1200px-London_Skyline_%28125508655%29.jpeg",
+    "Languages": "English French German"
+  },
+  {
+    "Id": 2,
+    "Name": "Birmingham",
+    "Lat": 52.4862,
+    "Long": -1.8904,
+    "Url": "https://en.wikipedia.org/wiki/Birmingham",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Selfridges_Birmingham_from_Park_Street_car_park.jpg/1024px-Selfridges_Birmingham_from_Park_Street_car_park.jpg",
+    "Languages": "English Spanish French"
+  },
+  {
+    "Id": 3,
+    "Name": "Derby",
+    "Lat": 52.9228,
+    "Long": -1.4763,
+    "Url": "https://en.wikipedia.org/wiki/Derby",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/67/Derby_Guildhall.JPG",
+    "Languages": "German Spanish French"
+  }
+]
