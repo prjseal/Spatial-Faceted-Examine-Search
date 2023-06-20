@@ -1,16 +1,6 @@
 ﻿using Examine;
-using Microsoft.AspNetCore.Mvc;
+using Lucene.Net.QueryParsers.Surround.Query;
 using SpacialFacetedExamineSearch.Site.Models;
-using System.Collections.Specialized;
-using System.Net;
-using Umbraco.Cms.Core;
-using Umbraco.Cms.Infrastructure.Examine;
-using System.Net;
-
-using Examine;
-
-using Umbraco.Cms.Core;
-using Umbraco.Cms.Infrastructure.Examine;
 
 namespace SpacialFacetedExamineSearch.Site.Services
 {
@@ -25,13 +15,11 @@ namespace SpacialFacetedExamineSearch.Site.Services
 
         public IEnumerable<ISearchResult>? Search(FacetedSearchModel searchModel)
         {
-            var model = new FacetedSearchModel();
-
-            SpatialContext ctx = SpatialContext.GEO;
-
             ISearchResults? results = null;
             if (_examineManager.TryGetIndex("LocationsIndex", out IIndex? index))
             {
+                var searchFields = "name";
+
                 var query = index
                     .Searcher
                     .CreateQuery()
@@ -40,7 +28,7 @@ namespace SpacialFacetedExamineSearch.Site.Services
                 if(!string.IsNullOrWhiteSpace(searchModel?.SearchTerm ?? ""))
                 {
                     query.And()
-                    .GroupedAnd("name".Split(','), searchModel!.SearchTerm);
+                    .GroupedAnd(searchFields.Split(','), searchModel!.SearchTerm);
                 }
 
                 results = query.Execute();
