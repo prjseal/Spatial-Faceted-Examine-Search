@@ -20,6 +20,8 @@ namespace SpacialFacetedExamineSearch.Site.Components
 
             var model = new FacetedSearchModel();
             model.SearchTerm = QueryStringHelper.GetValueFromQueryString("searchTerm", url);
+            model.Lat = QueryStringHelper.GetValueFromQueryString("lat", url);
+            model.Long = QueryStringHelper.GetValueFromQueryString("long", url);
 
             model.PageResults = _searchService.Search(model);
 

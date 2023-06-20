@@ -6,6 +6,8 @@ namespace SpacialFacetedExamineSearch.Site.Models
     public class FacetedSearchModel
     {
         public string SearchTerm { get; set; }
+        public string Lat { get; set; }
+        public string Long { get; set; }
         public Dictionary<string, Tuple<string, IFacetResult>>? Facets { get; set; }
         public IEnumerable<ISearchResult>? PageResults { get; set; }
         public long TotalItemCount { get; set; }

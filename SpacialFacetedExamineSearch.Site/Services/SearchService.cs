@@ -27,6 +27,8 @@ namespace SpacialFacetedExamineSearch.Site.Services
         {
             var model = new FacetedSearchModel();
 
+            SpatialContext ctx = SpatialContext.GEO;
+
             ISearchResults? results = null;
             if (_examineManager.TryGetIndex("LocationsIndex", out IIndex? index))
             {
