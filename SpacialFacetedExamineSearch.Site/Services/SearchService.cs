@@ -30,14 +30,16 @@ namespace SpacialFacetedExamineSearch.Site.Services
             ISearchResults? results = null;
             if (_examineManager.TryGetIndex("LocationsIndex", out IIndex? index))
             {
-                string searchFields = "name";
-
                 var query = index
                     .Searcher
                     .CreateQuery()
-                    .NativeQuery($"+__IndexType:{IndexTypes.Content}")
-                    .And()
-                    .GroupedAnd(searchFields.Split(','), model.SearchTerm);
+                    .NativeQuery($"+__IndexType:locationItems");
+
+                if(!string.IsNullOrWhiteSpace(searchModel?.SearchTerm ?? ""))
+                {
+                    query.And()
+                    .GroupedAnd("name".Split(','), searchModel!.SearchTerm);
+                }
 
                 results = query.Execute();
             }

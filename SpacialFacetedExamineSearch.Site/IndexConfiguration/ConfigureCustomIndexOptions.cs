@@ -21,17 +21,17 @@ namespace SpacialFacetedExamineSearch.Site.IndexConfiguration
             if (name.Equals("LocationsIndex"))
             {
                 options.Analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
-                options.FieldDefinitions = new FieldDefinitionCollection(
-                new FieldDefinition("id", FieldDefinitionTypes.Integer),
-                new FieldDefinition("name", FieldDefinitionTypes.FullTextSortable),
-                new FieldDefinition("lat", FieldDefinitionTypes.Double),
-                new FieldDefinition("long", FieldDefinitionTypes.Double),
-                new FieldDefinition("url", FieldDefinitionTypes.FullText),
-                new FieldDefinition("imageUrl", FieldDefinitionTypes.FullText),
-                new FieldDefinition("languages", FieldDefinitionTypes.FullTextSortable)
-
-                );
-;
+                options.FieldDefinitions = 
+                    new FieldDefinitionCollection(
+                        new FieldDefinition("id", FieldDefinitionTypes.Integer),
+                        new FieldDefinition("name", FieldDefinitionTypes.FullTextSortable),
+                        new FieldDefinition("lat", FieldDefinitionTypes.Double),
+                        new FieldDefinition("long", FieldDefinitionTypes.Double),
+                        new FieldDefinition("url", FieldDefinitionTypes.FullText),
+                        new FieldDefinition("imageUrl", FieldDefinitionTypes.FullText),
+                        new FieldDefinition("languages", FieldDefinitionTypes.FullTextSortable)
+                    );
+                
                 options.UnlockIndex = true;
                 if (_settings.Value.LuceneDirectoryFactory ==
                 LuceneDirectoryFactory.SyncedTempFileSystemDirectoryFactory)

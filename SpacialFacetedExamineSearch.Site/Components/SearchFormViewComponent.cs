@@ -19,11 +19,11 @@ namespace SpacialFacetedExamineSearch.Site.Components
         public IViewComponentResult Invoke(string url) {
 
             var model = new FacetedSearchModel();
-            model.SearchTerm = QueryStringHelper.GetValueFromQueryString("query", url);
+            model.SearchTerm = QueryStringHelper.GetValueFromQueryString("searchTerm", url);
 
             model.PageResults = _searchService.Search(model);
 
-            return View("~/Views/Partials/Components/SearchForm.cshtml", model);
+            return View("~/Views/Partials/Components/SearchForm/SearchForm.cshtml", model);
         }
     }
 }

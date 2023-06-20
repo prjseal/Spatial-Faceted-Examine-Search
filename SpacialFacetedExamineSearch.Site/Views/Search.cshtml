@@ -1,6 +1,27 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Search>
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Search>
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Microsoft.AspNetCore.Http.Extensions
+
 @{
-	Layout = null;
+    Layout = null;
 }
+
+<style>
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        gap: 0px 0px;
+        grid-template-areas:
+            ". . ."
+            ". . ."
+            ". . .";
+    }
+
+    .container img {
+        width: auto;
+        height: 200px;
+    }
+</style>
+
+@await Component.InvokeAsync("SearchForm", Context.Request.GetDisplayUrl())

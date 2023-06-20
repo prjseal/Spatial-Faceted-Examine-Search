@@ -1,0 +1,26 @@
+@inherits UmbracoViewPage<FacetedSearchModel>
+
+@using SpacialFacetedExamineSearch.Site.Models
+@using SpacialFacetedExamineSearch.Site.Controllers
+
+<form action="/search/" method="GET">
+    <input type="text" name="searchTerm" placeholder="Search term..." value="@Model.SearchTerm" />
+    <button type="submit">Search</button>
+</form>
+
+@if (Model?.PageResults?.Any() ?? false)
+{
+    <div class="container">
+        @foreach (var item in Model.PageResults)
+        {
+            var name = @item.GetValues("name").FirstOrDefault();
+            var imageUrl = @item.GetValues("imageUrl").FirstOrDefault();
+            var url = @item.GetValues("imageUrl").FirstOrDefault();
+
+            <div>
+                <img src="@item.GetValues("imageUrl").FirstOrDefault()" alt="@name" >
+                <h2><a href="@url">@name</a></h2>
+            </div>
+        }
+    </div>
+}
