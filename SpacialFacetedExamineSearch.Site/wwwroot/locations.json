@@ -6,7 +6,13 @@
     "Longitude": -0.1278,
     "Url": "https://en.wikipedia.org/wiki/London",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/1200px-London_Skyline_%28125508655%29.jpeg",
-    "Languages": "English French German"
+    "Languages": "English French German",
+    "Locations": [
+      {
+        "latitude": 51.5074,
+        "longitude": -0.1278
+      }
+    ]
   },
   {
     "Id": 2,
@@ -15,15 +21,27 @@
     "Longitude": -1.8904,
     "Url": "https://en.wikipedia.org/wiki/Birmingham",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Selfridges_Birmingham_from_Park_Street_car_park.jpg/1024px-Selfridges_Birmingham_from_Park_Street_car_park.jpg",
-    "Languages": "English Spanish French"
+    "Languages": "English Spanish French",
+    "Locations": [
+      {
+        "latitude": 52.4862,
+        "longitude": -1.8904
+      }
+    ]
   },
   {
     "Id": 3,
-    "Name": "Derby",
-    "Latitude": 52.9228,
-    "Longitude": -1.4763,
-    "Url": "https://en.wikipedia.org/wiki/Derby",
-    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/67/Derby_Guildhall.JPG",
-    "Languages": "German Spanish French"
+    "Name": "Amsterdam",
+    "Latitude": 52.37132,
+    "Longitude": 4.88128,
+    "Url": "https://en.wikipedia.org/wiki/Amsterdam",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/KeizersgrachtReguliersgrachtAmsterdam.jpg/402px-KeizersgrachtReguliersgrachtAmsterdam.jpg",
+    "Languages": "German Spanish French",
+    "Locations": [
+      {
+        "latitude": 52.37132,
+        "longitude": 4.88128
+      }
+    ]
   }
 ]

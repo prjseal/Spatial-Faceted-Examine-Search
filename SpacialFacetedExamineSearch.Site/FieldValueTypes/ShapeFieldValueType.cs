@@ -32,7 +32,6 @@ namespace SpacialFacetedExamineSearch.Site.FieldValueTypes
         {
             var locs = (IEnumerable<JObject>)value;
             var shapes = locs
-                .Where(loc => loc.Value<double>("longitude") > 0 && loc.Value<double>("latitude") > 0)
                 .Select(loc => context.MakePoint(loc.Value<double>("longitude"), loc.Value<double>("latitude")));
             var fields = shapes.SelectMany(shape => strategy.CreateIndexableFields(shape));
             foreach (var field in fields)

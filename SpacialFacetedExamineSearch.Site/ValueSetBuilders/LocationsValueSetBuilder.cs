@@ -18,6 +18,7 @@ namespace SpacialFacetedExamineSearch.Site.ValueSetBuilders
                     ["latitude"] = item.Latitude,
                     ["longitude"] = item.Longitude,
                     ["latlng"] = item.Latitude.ToString(CultureInfo.InvariantCulture) + "," + item.Longitude.ToString(CultureInfo.InvariantCulture),
+                    ["locations"] = item.Locations,
                     ["url"] = item.Url,
                     ["imageUrl"] = item.ImageUrl,
                     ["languages"] = item.Languages

@@ -22,6 +22,7 @@
             <div>
                 <img src="@item.Doc.GetValues("imageUrl").FirstOrDefault()" alt="@name" >
                 <h2><a href="@url">@name</a></h2>
+                <p>Distance: @item.Distance.ToString("n1") miles</p>
             </div>
         }
     </div>

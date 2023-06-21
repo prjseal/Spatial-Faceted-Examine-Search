@@ -1,5 +1,6 @@
 ﻿using Examine;
 using SpacialFacetedExamineSearch.Site.CustomIndex;
+using SpacialFacetedExamineSearch.Site.IndexConfiguration;
 using SpacialFacetedExamineSearch.Site.IndexPopulators;
 using SpacialFacetedExamineSearch.Site.Services;
 using SpacialFacetedExamineSearch.Site.ValueSetBuilders;
@@ -16,9 +17,8 @@ namespace SpacialFacetedExamineSearch.Site.Composers
             builder.Services.AddUnique<LocationsValueSetBuilder>();
 
             builder.Services.AddSingleton<IIndexPopulator, LocationsIndexPopulator>();
-            builder.Services
-            .AddExamineLuceneIndex<CustomLocationsIndex,
-            ConfigurationEnabledDirectoryFactory>("LocationsIndex");
+            builder.Services.AddExamineLuceneIndex<CustomLocationsIndex, ConfigurationEnabledDirectoryFactory>("LocationsIndex");
+            builder.Services.ConfigureOptions<ConfigureCustomIndexOptions>();
         }
     }
 }

@@ -34,15 +34,13 @@ namespace SpacialFacetedExamineSearch.Site.IndexConfiguration
                         new FieldDefinition("url", FieldDefinitionTypes.FullText),
                         new FieldDefinition("imageUrl", FieldDefinitionTypes.FullText),
                         new FieldDefinition("languages", FieldDefinitionTypes.FullTextSortable),
-                        new FieldDefinition("locationItems", "shape"),
+                        new FieldDefinition("locations", "shape"),
                         new FieldDefinition("latlng", FieldDefinitionTypes.Raw)
                 );
 
                 var defaults = ValueTypeFactoryCollection.GetDefaultValueTypes(_loggerFactory, analyzer);
-                var valueTypeFactories = new Dictionary<string, IFieldValueTypeFactory>(defaults)
-                {
-                    { "shape", new ShapeValueTypeFactory(analyzer) }
-                };
+                var valueTypeFactories = new Dictionary<string, IFieldValueTypeFactory>(defaults);
+                valueTypeFactories.Add("shape", new ShapeValueTypeFactory(analyzer));
 
                 options.IndexValueTypesFactory = valueTypeFactories;
 

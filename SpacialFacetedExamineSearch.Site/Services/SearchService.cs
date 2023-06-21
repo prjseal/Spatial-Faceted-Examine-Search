@@ -28,15 +28,15 @@ namespace SpacialFacetedExamineSearch.Site.Services
             BooleanQuery geoQuery = null;
             Sort sort = Sort.RELEVANCE;
 
-            var valueType = (ShapeFieldValueType)index.FieldValueTypeCollection.ValueTypes.FirstOrDefault(x => x.FieldName == "locationItems");
+            var valueType = (ShapeFieldValueType)index.FieldValueTypeCollection.ValueTypes
+                .FirstOrDefault(x => x.FieldName == "locations");
             var circleQuery = valueType.Strategy.MakeQuery(
                             new SpatialArgs(
                                 SpatialOperation.Intersects,
                                 valueType.Context.MakeCircle(
-                                    double.Parse(searchModel.Latitude),
                                     double.Parse(searchModel.Longitude),
-                                    DistanceUtils.Dist2Degrees(20, DistanceUtils.EarthMeanRadiusKilometers)
-                                )
+                                    double.Parse(searchModel.Latitude), 
+                                    DistanceUtils.Dist2Degrees(50, DistanceUtils.EarthMeanRadiusMiles))
                             )
                         );
 
@@ -44,20 +44,14 @@ namespace SpacialFacetedExamineSearch.Site.Services
             geoQuery.Add(circleQuery, Occur.SHOULD);
 
             var query = (LuceneSearchQueryBase)index.Searcher.CreateQuery(null, BooleanOperation.Or);
-            //var op = (LuceneBooleanOperation)query
-            //        .GroupedOr(SearchFields, searchModel.SearchQuery.Terms.Select(t => (t + "*").Boost(2f)).ToArray())
-            //        .Or()
-            //        .GroupedOr(SearchFields, searchModel.SearchQuery.Terms.Select(t => t.MultipleCharacterWildcard()).ToArray())
-            //    ;
 
             if (geoQuery != null)
             {
-                // .Query should be op...
-                //geoQuery.Boost = 0.1f;
                 query.Query.Add(geoQuery, Occur.SHOULD);
             }
 
-            var result = searcher.Search(query.Query, searchModel.SearchQuery.MaxHits);
+            var result = searcher.Search(query.Query, 10);
+            //var result = searcher.Search(query.Query, searchModel.SearchQuery.MaxHits);
 
             var vals = result.ScoreDocs.Select(
                 x =>
