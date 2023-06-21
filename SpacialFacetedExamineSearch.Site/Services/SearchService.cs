@@ -1,6 +1,13 @@
 ﻿using Examine;
-using Lucene.Net.QueryParsers.Surround.Query;
+using Examine.Lucene.Providers;
+using Examine.Lucene.Search;
+using Examine.Search;
+using Lucene.Net.Documents;
+using Lucene.Net.Search;
+using Lucene.Net.Spatial.Queries;
+using SpacialFacetedExamineSearch.Site.FieldValueTypes;
 using SpacialFacetedExamineSearch.Site.Models;
+using Spatial4n.Distance;
 
 namespace SpacialFacetedExamineSearch.Site.Services
 {
@@ -13,28 +20,131 @@ namespace SpacialFacetedExamineSearch.Site.Services
             _examineManager = examineManager;
         }
 
-        public IEnumerable<ISearchResult>? Search(FacetedSearchModel searchModel)
+        public IEnumerable<SearchResultItem>? Search(FacetedSearchModel searchModel)
         {
-            ISearchResults? results = null;
-            if (_examineManager.TryGetIndex("LocationsIndex", out IIndex? index))
+            var index = (LuceneIndex)_examineManager.GetIndex("LocationsIndex");
+            var searcher = new IndexSearcher(index.IndexWriter.IndexWriter.GetReader(false));
+
+            BooleanQuery geoQuery = null;
+            Sort sort = Sort.RELEVANCE;
+
+            var valueType = (ShapeFieldValueType)index.FieldValueTypeCollection.ValueTypes.FirstOrDefault(x => x.FieldName == "locationItems");
+            var circleQuery = valueType.Strategy.MakeQuery(
+                            new SpatialArgs(
+                                SpatialOperation.Intersects,
+                                valueType.Context.MakeCircle(
+                                    double.Parse(searchModel.Latitude),
+                                    double.Parse(searchModel.Longitude),
+                                    DistanceUtils.Dist2Degrees(20, DistanceUtils.EarthMeanRadiusKilometers)
+                                )
+                            )
+                        );
+
+            geoQuery = new BooleanQuery();
+            geoQuery.Add(circleQuery, Occur.SHOULD);
+
+            var query = (LuceneSearchQueryBase)index.Searcher.CreateQuery(null, BooleanOperation.Or);
+            //var op = (LuceneBooleanOperation)query
+            //        .GroupedOr(SearchFields, searchModel.SearchQuery.Terms.Select(t => (t + "*").Boost(2f)).ToArray())
+            //        .Or()
+            //        .GroupedOr(SearchFields, searchModel.SearchQuery.Terms.Select(t => t.MultipleCharacterWildcard()).ToArray())
+            //    ;
+
+            if (geoQuery != null)
             {
-                var searchFields = "name";
-
-                var query = index
-                    .Searcher
-                    .CreateQuery()
-                    .NativeQuery($"+__IndexType:locationItems");
-
-                if(!string.IsNullOrWhiteSpace(searchModel?.SearchTerm ?? ""))
-                {
-                    query.And()
-                    .GroupedAnd(searchFields.Split(','), searchModel!.SearchTerm);
-                }
-
-                results = query.Execute();
+                // .Query should be op...
+                //geoQuery.Boost = 0.1f;
+                query.Query.Add(geoQuery, Occur.SHOULD);
             }
 
-            return results != null && results.Any() ? results.ToList() : Enumerable.Empty<ISearchResult>();
+            var result = searcher.Search(query.Query, searchModel.SearchQuery.MaxHits);
+
+            var vals = result.ScoreDocs.Select(
+                x =>
+                {
+                    var doc = searcher.Doc(x.Doc);
+                    var location = doc.GetValues("latlng").FirstOrDefault().Split(';', StringSplitOptions.RemoveEmptyEntries).Select(Location.FromString).FirstOrDefault();
+                    var distance = location.DistanceTo(new Location(float.Parse(searchModel.Latitude), float.Parse(searchModel.Longitude)));
+                    return new SearchResultItem(doc, x.Score, distance);
+                });
+
+            return vals;
         }
+
+        public class SearchQuery
+        {
+            private string phrase = "";
+            private string[] terms;
+
+            public string Phrase
+            {
+                get => phrase;
+                set
+                {
+                    phrase = value;
+                    terms = Phrase
+                        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                        .Where(x => x.Length >= 3)
+                        .ToArray();
+                }
+            }
+
+            public int MaxHits { get; set; } = 10;
+
+            public string[] Terms
+            {
+                get { return terms; }
+            }
+        }
+
+        public struct Location
+        {
+            public float Latitude { get; set; }
+            public float Longitude { get; set; }
+
+            public Location(float latitude, float longitude)
+            {
+                Latitude = latitude;
+                Longitude = longitude;
+            }
+
+            public static Location FromString(string value)
+            {
+                var parts = value.Split(',');
+                var point = new Location(Convert.ToSingle(parts[0], System.Globalization.CultureInfo.InvariantCulture), Convert.ToSingle(parts[1], System.Globalization.CultureInfo.InvariantCulture));
+                return point;
+            }
+
+            public float DistanceTo(Location b)
+            {
+                var x = MathF.Abs(Longitude - b.Longitude);
+                var y = MathF.Abs(Latitude - b.Latitude);
+                return MathF.Sqrt(x * x + y * y);
+            }
+
+            public override string ToString()
+            {
+                return $"{Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture)}, {Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+            }
+        }
+
+        public class SearchResultItem
+        {
+            public Document Doc { get; set; }
+            public float Score { get; set; }
+            public float Distance { get; set; }
+
+            public SearchResultItem(Document doc, float score, float distance)
+            {
+                Doc = doc;
+                Score = score;
+                Distance = distance;
+            }
+        }
+
+        public static readonly string[] SearchFields = new[]
+        {
+            "name"
+        };
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Examine;
 using SpacialFacetedExamineSearch.Site.Models;
+using System.Globalization;
 using Umbraco.Cms.Infrastructure.Examine;
 
 namespace SpacialFacetedExamineSearch.Site.ValueSetBuilders
@@ -14,8 +15,9 @@ namespace SpacialFacetedExamineSearch.Site.ValueSetBuilders
                 {
                     ["id"] = item.Id,
                     ["name"] = item.Name,
-                    ["lat"] = item.Lat,
-                    ["long"] = item.Long,
+                    ["latitude"] = item.Latitude,
+                    ["longitude"] = item.Longitude,
+                    ["latlng"] = item.Latitude.ToString(CultureInfo.InvariantCulture) + "," + item.Longitude.ToString(CultureInfo.InvariantCulture),
                     ["url"] = item.Url,
                     ["imageUrl"] = item.ImageUrl,
                     ["languages"] = item.Languages

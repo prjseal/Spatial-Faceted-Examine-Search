@@ -5,8 +5,8 @@
 
 <form action="/search/" method="GET">
     <input type="text" name="searchTerm" placeholder="Search term..." value="@Model.SearchTerm" />
-    <input type="text" name="lat" placeholder="52.884483656752465" value="@Model.Lat" />
-    <input type="text" name="long" placeholder="-1.4454763173502538" value="@Model.Long" />
+    <input type="text" name="lat" placeholder="52.95482" value="@Model.Latitude" />
+    <input type="text" name="long" placeholder="-1.15564" value="@Model.Longitude" />
     <button type="submit">Search</button>
 </form>
 
@@ -15,12 +15,12 @@
     <div class="container">
         @foreach (var item in Model.PageResults)
         {
-            var name = @item.GetValues("name").FirstOrDefault();
-            var imageUrl = @item.GetValues("imageUrl").FirstOrDefault();
-            var url = @item.GetValues("imageUrl").FirstOrDefault();
+            var name = @item.Doc.GetValues("name").FirstOrDefault();
+            var imageUrl = @item.Doc.GetValues("imageUrl").FirstOrDefault();
+            var url = @item.Doc.GetValues("imageUrl").FirstOrDefault();
 
             <div>
-                <img src="@item.GetValues("imageUrl").FirstOrDefault()" alt="@name" >
+                <img src="@item.Doc.GetValues("imageUrl").FirstOrDefault()" alt="@name" >
                 <h2><a href="@url">@name</a></h2>
             </div>
         }
