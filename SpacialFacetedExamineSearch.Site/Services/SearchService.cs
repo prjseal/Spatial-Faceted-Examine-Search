@@ -36,7 +36,7 @@ namespace SpacialFacetedExamineSearch.Site.Services
                                 valueType.Context.MakeCircle(
                                     double.Parse(searchModel.Longitude),
                                     double.Parse(searchModel.Latitude), 
-                                    DistanceUtils.Dist2Degrees(50, DistanceUtils.EarthMeanRadiusMiles))
+                                    DistanceUtils.Dist2Degrees(searchModel.RadiusInMiles, DistanceUtils.EarthMeanRadiusMiles))
                             )
                         );
 
@@ -111,9 +111,27 @@ namespace SpacialFacetedExamineSearch.Site.Services
 
             public float DistanceTo(Location b)
             {
-                var x = MathF.Abs(Longitude - b.Longitude);
-                var y = MathF.Abs(Latitude - b.Latitude);
-                return MathF.Sqrt(x * x + y * y);
+                //var x = MathF.Abs(Longitude - b.Longitude);
+                //var y = MathF.Abs(Latitude - b.Latitude);
+                //return MathF.Sqrt(x * x + y * y);
+
+                var dLat = ToRadians(b.Latitude - Latitude);
+                var dLon = ToRadians(b.Longitude - Longitude);
+
+                var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                        Math.Cos(ToRadians(Latitude)) * Math.Cos(ToRadians(b.Latitude)) *
+                        Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+                var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+                var distance = DistanceUtils.EarthMeanRadiusMiles * c;
+
+                return (float)distance;
+            }
+
+            private static double ToRadians(double degrees)
+            {
+                return degrees * Math.PI / 180;
             }
 
             public override string ToString()

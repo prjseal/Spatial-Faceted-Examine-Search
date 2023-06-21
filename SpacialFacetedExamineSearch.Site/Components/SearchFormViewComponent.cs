@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MailKit.Search;
+using Microsoft.AspNetCore.Mvc;
 using SpacialFacetedExamineSearch.Site.Helpers;
 using SpacialFacetedExamineSearch.Site.Models;
 using SpacialFacetedExamineSearch.Site.Services;
@@ -19,10 +20,11 @@ namespace SpacialFacetedExamineSearch.Site.Components
         public IViewComponentResult Invoke(string url) {
 
             var model = new FacetedSearchModel();
-            model.SearchTerm = QueryStringHelper.GetValueFromQueryString("searchTerm", url);
+            var searchTerm = QueryStringHelper.GetValueFromQueryString("searchTerm", url);
+            model.SearchQuery = new SearchService.SearchQuery() { Phrase = searchTerm};
             model.Latitude = QueryStringHelper.GetValueFromQueryString("lat", url);
             model.Longitude = QueryStringHelper.GetValueFromQueryString("long", url);
-
+            model.RadiusInMiles = int.Parse(QueryStringHelper.GetValueFromQueryString("distance", url, "50"));
             model.PageResults = _searchService.Search(model);
 
             return View("~/Views/Partials/Components/SearchForm/SearchForm.cshtml", model);

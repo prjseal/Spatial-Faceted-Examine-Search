@@ -16,5 +16,6 @@ namespace SpacialFacetedExamineSearch.Site.Models
         public int PageSize { get; set; }
         public int PageNumber { get; set; }
         public double PageCount { get; set; }
+        public int RadiusInMiles { get; set; }
     }
 }
