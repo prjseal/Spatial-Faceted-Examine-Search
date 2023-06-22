@@ -23,4 +23,4 @@ It might not be the most efficient but it will work which is the main thing, and
 
 ## Credits
 
-Thanks so much to Lars-Erik Aabech for the code to do the spatial searching.
+Thanks so much to [Lars-Erik Aabech](https://twitter.com/bleedo) for the code to do the spatial searching.
