@@ -23,31 +23,35 @@ namespace SpacialFacetedExamineSearch.Site.Services
         public IEnumerable<SearchResultItem>? Search(FacetedSearchModel searchModel)
         {
             var index = (LuceneIndex)_examineManager.GetIndex("LocationsIndex");
+            var query = (LuceneSearchQueryBase)index.Searcher.CreateQuery(null, BooleanOperation.Or);
+            
             var searcher = new IndexSearcher(index.IndexWriter.IndexWriter.GetReader(false));
 
-            BooleanQuery geoQuery = null;
-            Sort sort = Sort.RELEVANCE;
-
-            var valueType = (ShapeFieldValueType)index.FieldValueTypeCollection.ValueTypes
-                .FirstOrDefault(x => x.FieldName == "locations");
-            var circleQuery = valueType.Strategy.MakeQuery(
-                            new SpatialArgs(
-                                SpatialOperation.Intersects,
-                                valueType.Context.MakeCircle(
-                                    double.Parse(searchModel.Longitude),
-                                    double.Parse(searchModel.Latitude), 
-                                    DistanceUtils.Dist2Degrees(searchModel.RadiusInMiles, DistanceUtils.EarthMeanRadiusMiles))
-                            )
-                        );
-
-            geoQuery = new BooleanQuery();
-            geoQuery.Add(circleQuery, Occur.SHOULD);
-
-            var query = (LuceneSearchQueryBase)index.Searcher.CreateQuery(null, BooleanOperation.Or);
-
-            if (geoQuery != null)
+            if (!string.IsNullOrWhiteSpace(searchModel.Longitude) && !string.IsNullOrWhiteSpace(searchModel.Latitude))
             {
-                query.Query.Add(geoQuery, Occur.SHOULD);
+                BooleanQuery geoQuery = null;
+                Sort sort = Sort.RELEVANCE;
+
+                var valueType = (ShapeFieldValueType)index.FieldValueTypeCollection.ValueTypes
+                    .FirstOrDefault(x => x.FieldName == "locations");
+                var circleQuery = valueType.Strategy.MakeQuery(
+                                new SpatialArgs(
+                                    SpatialOperation.Intersects,
+                                    valueType.Context.MakeCircle(
+                                        double.Parse(searchModel.Longitude),
+                                        double.Parse(searchModel.Latitude), 
+                                        DistanceUtils.Dist2Degrees(searchModel.RadiusInMiles, DistanceUtils.EarthMeanRadiusMiles))
+                                )
+                            );
+
+                geoQuery = new BooleanQuery();
+                geoQuery.Add(circleQuery, Occur.SHOULD);
+
+
+                if (geoQuery != null)
+                {
+                    query.Query.Add(geoQuery, Occur.SHOULD);
+                }
             }
 
             var result = searcher.Search(query.Query, 10);
