@@ -4,7 +4,7 @@
 @using SpacialFacetedExamineSearch.Site.Controllers
 
 <form action="/search/" method="GET">
-    <input type="text" name="searchTerm" placeholder="Search term..." value="@Model.SearchTerm" />
+    @*<input type="text" name="searchTerm" placeholder="Search term..." value="@Model.SearchTerm" />*@
     <input type="text" name="lat" placeholder="52.95482" value="@Model.Latitude" />
     <input type="text" name="long" placeholder="-1.15564" value="@Model.Longitude" />
     <button type="submit">Search</button>
@@ -17,11 +17,11 @@
         {
             var name = @item.Doc.GetValues("name").FirstOrDefault();
             var imageUrl = @item.Doc.GetValues("imageUrl").FirstOrDefault();
-            var url = @item.Doc.GetValues("imageUrl").FirstOrDefault();
+            var url = @item.Doc.GetValues("url").FirstOrDefault();
 
             <div>
-                <img src="@item.Doc.GetValues("imageUrl").FirstOrDefault()" alt="@name" >
-                <h2><a href="@url">@name</a></h2>
+                <img src="@imageUrl" alt="@name" >
+                <h2><a target="_blank" href="@url">@name</a></h2>
                 <p>Distance: @item.Distance.ToString("n1") miles</p>
             </div>
         }
