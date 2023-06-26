@@ -4,7 +4,7 @@
 @using SpacialFacetedExamineSearch.Site.Controllers
 
 <form action="/search/" method="GET">
-    @*<input type="text" name="searchTerm" placeholder="Search term..." value="@Model.SearchTerm" />*@
+    <input type="text" name="searchTerm" placeholder="Search term..." value="@Model.SearchQuery.Phrase" />
     <input type="text" name="lat" placeholder="52.95482" value="@Model.Latitude" />
     <input type="text" name="long" placeholder="-1.15564" value="@Model.Longitude" />
     <button type="submit">Search</button>

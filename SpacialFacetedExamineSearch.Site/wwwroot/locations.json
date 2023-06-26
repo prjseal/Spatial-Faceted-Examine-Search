@@ -31,16 +31,49 @@
   },
   {
     "Id": 3,
-    "Name": "Amsterdam",
-    "Latitude": 52.37132,
-    "Longitude": 4.88128,
-    "Url": "https://en.wikipedia.org/wiki/Amsterdam",
-    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/KeizersgrachtReguliersgrachtAmsterdam.jpg/402px-KeizersgrachtReguliersgrachtAmsterdam.jpg",
-    "Languages": "German Spanish French",
+    "Name": "Manchester",
+    "Latitude": 53.4831,
+    "Longitude": -2.2441,
+    "Url": "https://en.wikipedia.org/wiki/Manchester",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Manchester_City_Centre_2015.jpg/1200px-Manchester_City_Centre_2015.jpg",
+    "Languages": "English",
     "Locations": [
       {
-        "latitude": 52.37132,
-        "longitude": 4.88128
+        "PlaceName": "Manchester",
+        "Latitude": 53.4831,
+        "Longitude": -2.2441
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "Name": "Edinburgh",
+    "Latitude": 55.9533,
+    "Longitude": -3.1883,
+    "Url": "https://en.wikipedia.org/wiki/Edinburgh",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Edinburgh_Skyline.jpg/1200px-Edinburgh_Skyline.jpg",
+    "Languages": "English",
+    "Locations": [
+      {
+        "PlaceName": "Edinburgh",
+        "Latitude": 55.9533,
+        "Longitude": -3.1883
+      }
+    ]
+  },
+  {
+    "Id": 5,
+    "Name": "Glasgow",
+    "Latitude": 55.8642,
+    "Longitude": -4.2518,
+    "Url": "https://en.wikipedia.org/wiki/Glasgow",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Glasgow_Skyline_Panorama.jpg/1200px-Glasgow_Skyline_Panorama.jpg",
+    "Languages": "English",
+    "Locations": [
+      {
+        "PlaceName": "Glasgow",
+        "Latitude": 55.8642,
+        "Longitude": -4.2518
       }
     ]
   }

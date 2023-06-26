@@ -3,11 +3,17 @@ using Examine.Lucene.Providers;
 using Examine.Lucene.Search;
 using Examine.Search;
 using Lucene.Net.Documents;
+using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Spatial.Queries;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using SpacialFacetedExamineSearch.Site.FieldValueTypes;
+using SpacialFacetedExamineSearch.Site.Helpers;
 using SpacialFacetedExamineSearch.Site.Models;
 using Spatial4n.Distance;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace SpacialFacetedExamineSearch.Site.Services
 {
@@ -26,6 +32,26 @@ namespace SpacialFacetedExamineSearch.Site.Services
             var query = (LuceneSearchQueryBase)index.Searcher.CreateQuery(null, BooleanOperation.Or);
             
             var searcher = new IndexSearcher(index.IndexWriter.IndexWriter.GetReader(false));
+            
+            if(!string.IsNullOrWhiteSpace(searchModel.SearchQuery.Phrase))
+            {
+                ISearchResults? filteredResults = null;
+
+                var filteredQuery = index
+                    .Searcher
+                    .CreateQuery()
+                    .NativeQuery($"+__IndexType:locationItems")
+                    .And()
+                    .GroupedAnd(SearchFields, searchModel.SearchQuery.Terms);
+
+                Match match = Regex.Match(filteredQuery.ToString(), @"LuceneQuery:(.*?)\}");
+                if (match.Success)
+                {
+                    string luceneQuery = match.Groups[1].Value.Trim();
+                    var filterLuceneQuery = query.QueryParser.Parse(luceneQuery);
+                    query.Query.Add(filterLuceneQuery, Occur.MUST);
+                }
+            }
 
             if (!string.IsNullOrWhiteSpace(searchModel.Longitude) && !string.IsNullOrWhiteSpace(searchModel.Latitude))
             {
@@ -45,12 +71,12 @@ namespace SpacialFacetedExamineSearch.Site.Services
                             );
 
                 geoQuery = new BooleanQuery();
-                geoQuery.Add(circleQuery, Occur.SHOULD);
+                geoQuery.Add(circleQuery, Occur.MUST);
 
 
                 if (geoQuery != null)
                 {
-                    query.Query.Add(geoQuery, Occur.SHOULD);
+                    query.Query.Add(geoQuery, Occur.MUST);
                 }
             }
 
