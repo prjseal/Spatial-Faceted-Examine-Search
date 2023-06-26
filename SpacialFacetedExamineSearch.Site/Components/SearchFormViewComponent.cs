@@ -32,10 +32,19 @@ namespace SpacialFacetedExamineSearch.Site.Components
             var allResults = _searchService.Search(new FacetedSearchModel() { MaxResults = 1000 });
             var allFacets = FacetHelper.GetFacetItemsFromResults(new string[] { "languages" }, allResults);
 
-            var distinctFacets = allFacets.Distinct(new FacetItemComparer());
+            var distinctFacets = allFacets.Distinct(new FacetItemComparer()).OrderBy(x => x.PropertyAlias).ThenBy(y => y.FacetValue);
 
             var language = QueryStringHelper.GetValueFromQueryString("language", url);
             model.SelectedLanguages = QueryStringHelper.GetValueFromQueryString("language", url)?.Split(',') ?? new string[] { } ;
+
+            var facets = new Dictionary<string, List<string>>();
+            var currentPropertyAlias = "";
+
+            var propertyAliases = distinctFacets.Select(x => x.PropertyAlias).Distinct();
+            foreach ( var alias in propertyAliases)
+            {
+                facets.Add(alias, distinctFacets.Select(x => x.FacetValue).ToList());
+            }
 
             model.LanguageOptions = new List<SelectListItem>()
             {
