@@ -6,6 +6,7 @@ namespace SpacialFacetedExamineSearch.Site.Services
 {
     public interface ISearchService
     {
+        IEnumerable<ISearchResult>? AllResults();
         IEnumerable<SearchResultItem> Search(FacetedSearchModel searchModel);
     }
 }

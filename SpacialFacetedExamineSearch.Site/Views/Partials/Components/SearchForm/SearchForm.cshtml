@@ -4,25 +4,50 @@
 @using SpacialFacetedExamineSearch.Site.Controllers
 
 <form action="/search/" method="GET">
-    <input type="text" name="searchTerm" placeholder="Search term..." value="@Model.SearchQuery.Phrase" />
-    <input type="text" name="lat" placeholder="52.95482" value="@Model.Latitude" />
-    <input type="text" name="long" placeholder="-1.15564" value="@Model.Longitude" />
+    <fieldset>
+        <legend>Place name:</legend>
+        <input type="text" name="searchTerm" placeholder="Search term..." value="@Model.SearchQuery.Phrase" />
+    </fieldset>
+
+    <fieldset>
+        <legend>GPS Coordinates:</legend>
+        <input type="text" name="lat" placeholder="52.95482" value="@Model.Latitude" />
+        <input type="text" name="long" placeholder="-1.15564" value="@Model.Longitude" />
+    </fieldset>
+
+    <fieldset>
+        <legend>Select languages:</legend>
+
+        @foreach(var languageOption in Model.LanguageOptions)
+        {
+            <div>
+                <input type="checkbox" checked="@(languageOption.Selected ? "checked" : null)" id="language_@(languageOption.Value)" name="language" value="@languageOption.Value">
+                <label for="language_@(languageOption.Value)">@languageOption.Text</label>
+            </div>
+        }
+    </fieldset>
+
+
     <button type="submit">Search</button>
 </form>
 
 @if (Model?.PageResults?.Any() ?? false)
 {
+    
+
     <div class="container">
         @foreach (var item in Model.PageResults)
         {
             var name = @item.Doc.GetValues("name").FirstOrDefault();
             var imageUrl = @item.Doc.GetValues("imageUrl").FirstOrDefault();
             var url = @item.Doc.GetValues("url").FirstOrDefault();
+            var languages = @item.Doc.GetValues("languages").FirstOrDefault();
 
             <div>
                 <img src="@imageUrl" alt="@name" >
                 <h2><a target="_blank" href="@url">@name</a></h2>
                 <p>Distance: @item.Distance.ToString("n1") miles</p>
+                <p>Languages: @languages</p>
             </div>
         }
     </div>

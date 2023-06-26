@@ -14,6 +14,7 @@ using SpacialFacetedExamineSearch.Site.Models;
 using Spatial4n.Distance;
 using System.Net;
 using System.Text.RegularExpressions;
+using Umbraco.Cms.Core;
 
 namespace SpacialFacetedExamineSearch.Site.Services
 {
@@ -26,37 +27,63 @@ namespace SpacialFacetedExamineSearch.Site.Services
             _examineManager = examineManager;
         }
 
+        public IEnumerable<ISearchResult>? AllResults()
+        {
+            if (_examineManager.TryGetIndex(Constants.UmbracoIndexes.ExternalIndexName, out IIndex? index))
+            {
+
+                var query = index
+                    .Searcher
+                    .CreateQuery()
+                .NativeQuery($"+__IndexType:locationItems");
+
+                var results = query.Execute();
+
+                return results;
+            }
+
+            return Enumerable.Empty<ISearchResult>();
+        }
+
         public IEnumerable<SearchResultItem>? Search(FacetedSearchModel searchModel)
         {
             var index = (LuceneIndex)_examineManager.GetIndex("LocationsIndex");
             var query = (LuceneSearchQueryBase)index.Searcher.CreateQuery(null, BooleanOperation.Or);
-            
-            var searcher = new IndexSearcher(index.IndexWriter.IndexWriter.GetReader(false));
-            
-            if(!string.IsNullOrWhiteSpace(searchModel.SearchQuery.Phrase))
-            {
-                ISearchResults? filteredResults = null;
 
-                var filteredQuery = index
-                    .Searcher
-                    .CreateQuery()
-                    .NativeQuery($"+__IndexType:locationItems")
+            var searcher = new IndexSearcher(index.IndexWriter.IndexWriter.GetReader(false));
+
+            var filteredQuery = index
+                .Searcher
+                .CreateQuery()
+                .NativeQuery($"+__IndexType:locationItems");
+
+            if (!string.IsNullOrWhiteSpace(searchModel?.SearchQuery?.Phrase ?? ""))
+            {
+                filteredQuery
                     .And()
                     .GroupedAnd(SearchFields, searchModel.SearchQuery.Terms);
 
-                Match match = Regex.Match(filteredQuery.ToString(), @"LuceneQuery:(.*?)\}");
-                if (match.Success)
+                if (searchModel.SelectedLanguages != null && searchModel.SelectedLanguages.Any())
                 {
-                    string luceneQuery = match.Groups[1].Value.Trim();
-                    var filterLuceneQuery = query.QueryParser.Parse(luceneQuery);
-                    query.Query.Add(filterLuceneQuery, Occur.MUST);
+                    filteredQuery.And()
+                    .GroupedAnd(new[] { "languages" }, searchModel.SelectedLanguages);
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(searchModel.Longitude) && !string.IsNullOrWhiteSpace(searchModel.Latitude))
+            Match match = Regex.Match(filteredQuery.ToString(), @"LuceneQuery:(.*?)\}");
+            if (match.Success)
+            {
+                string luceneQuery = match.Groups[1].Value.Trim();
+                var filterLuceneQuery = query.QueryParser.Parse(luceneQuery);
+                query.Query.Add(filterLuceneQuery, Occur.MUST);
+            }
+
+            Sort sort = Sort.RELEVANCE;
+
+            var hasLocationPoint = !string.IsNullOrWhiteSpace(searchModel.Longitude) && !string.IsNullOrWhiteSpace(searchModel.Latitude);
+            if (hasLocationPoint)
             {
                 BooleanQuery geoQuery = null;
-                Sort sort = Sort.RELEVANCE;
 
                 var valueType = (ShapeFieldValueType)index.FieldValueTypeCollection.ValueTypes
                     .FirstOrDefault(x => x.FieldName == "locations");
@@ -65,34 +92,34 @@ namespace SpacialFacetedExamineSearch.Site.Services
                                     SpatialOperation.Intersects,
                                     valueType.Context.MakeCircle(
                                         double.Parse(searchModel.Longitude),
-                                        double.Parse(searchModel.Latitude), 
+                                        double.Parse(searchModel.Latitude),
                                         DistanceUtils.Dist2Degrees(searchModel.RadiusInMiles, DistanceUtils.EarthMeanRadiusMiles))
                                 )
                             );
 
                 geoQuery = new BooleanQuery();
-                geoQuery.Add(circleQuery, Occur.MUST);
+                geoQuery.Add(circleQuery, Occur.SHOULD);
 
 
                 if (geoQuery != null)
                 {
-                    query.Query.Add(geoQuery, Occur.MUST);
+                    query.Query.Add(geoQuery, Occur.SHOULD);
                 }
             }
 
-            var result = searcher.Search(query.Query, 10);
+            var result = searcher.Search(query.Query, 12, sort);
             //var result = searcher.Search(query.Query, searchModel.SearchQuery.MaxHits);
 
             var vals = result.ScoreDocs.Select(
                 x =>
                 {
                     var doc = searcher.Doc(x.Doc);
-                    var location = doc.GetValues("latlng").FirstOrDefault().Split(';', StringSplitOptions.RemoveEmptyEntries).Select(Location.FromString).FirstOrDefault();
-                    var distance = location.DistanceTo(new Location(float.Parse(searchModel.Latitude), float.Parse(searchModel.Longitude)));
+                    var location = hasLocationPoint ? doc.GetValues("latlng").FirstOrDefault().Split(';', StringSplitOptions.RemoveEmptyEntries).Select(Location.FromString).FirstOrDefault() : new Location();
+                    var distance = hasLocationPoint ? location.DistanceTo(new Location(float.Parse(searchModel.Latitude), float.Parse(searchModel.Longitude))) : 0f;
                     return new SearchResultItem(doc, x.Score, distance);
                 });
 
-            return vals;
+            return vals.OrderBy(x => x.Distance);
         }
 
         public class SearchQuery
