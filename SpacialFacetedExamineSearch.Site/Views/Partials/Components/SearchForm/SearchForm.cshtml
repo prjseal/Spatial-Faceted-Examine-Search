@@ -1,4 +1,4 @@
-@inherits UmbracoViewPage<FacetedSearchModel>
+﻿@inherits UmbracoViewPage<FacetedSearchModel>
 
 @using SpacialFacetedExamineSearch.Site.Models
 @using SpacialFacetedExamineSearch.Site.Controllers
@@ -7,13 +7,14 @@
     <fieldset>
         <legend>Place name:</legend>
         <input type="text" name="searchTerm" placeholder="Search term..." value="@Model.SearchQuery.Phrase" />
+        <input type="text" name="distance" placeholder="50" value="@Model.SearchQuery.Phrase" />
     </fieldset>
 
     <fieldset>
         <legend>GPS Coordinates:</legend>
         <input type="text" name="lat" id="latitude" placeholder="52.95482" value="@Model.Latitude" />
         <input type="text" name="long" id="longitude" placeholder="-1.15564" value="@Model.Longitude" />
-        <button type="button" onclick="getLocation()">Get My Location</button>
+        <button type="button" onclick="getLocation()">Get My Location 📍</button>
     </fieldset>
 
     @if(Model.FacetSets != null && Model.FacetSets.Any())
@@ -45,10 +46,13 @@
             var imageUrl = @item.Doc.GetValues("imageUrl").FirstOrDefault();
             var url = @item.Doc.GetValues("url").FirstOrDefault();
             var regions = @item.Doc.GetValues("regions").FirstOrDefault();
+            var latitude = @item.Doc.GetValues("latitude").FirstOrDefault();
+            var longitude = @item.Doc.GetValues("longitude").FirstOrDefault();
 
             <div>
-                <img src="@imageUrl" alt="@name" >
+                <img loading="lazy" src="@imageUrl" alt="@name" >
                 <h2><a target="_blank" href="@url">@name</a></h2>
+                <p><a href="/search/?lat=@(latitude)&long=@(longitude)">Search from this location 🔍</a></p>
                 <p>Distance: @item.Distance.ToString("n1") miles</p>
                 <p>Regions: @string.Join(", ", regions.Replace('_',' ').Split(',', StringSplitOptions.RemoveEmptyEntries))</p>
             </div>
