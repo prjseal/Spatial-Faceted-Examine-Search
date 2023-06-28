@@ -6,7 +6,7 @@
     "Longitude": -0.1278,
     "Url": "https://en.wikipedia.org/wiki/London",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/1200px-London_Skyline_%28125508655%29.jpeg",
-    "Regions": "England,South East,South",
+    "Regions": "England,South East",
     "Locations": [
       {
         "latitude": 51.5074,
@@ -21,7 +21,7 @@
     "Longitude": -1.8904,
     "Url": "https://en.wikipedia.org/wiki/Birmingham",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Selfridges_Birmingham_from_Park_Street_car_park.jpg/1024px-Selfridges_Birmingham_from_Park_Street_car_park.jpg",
-    "Regions": "England,West Midlands,Midlands",
+    "Regions": "England,West Midlands",
     "Locations": [
       {
         "latitude": 52.4862,
@@ -36,7 +36,7 @@
     "Longitude": -2.2441,
     "Url": "https://en.wikipedia.org/wiki/Manchester",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Tower_Blocks_over_Knott_Mill%2C_geograph_6866152_by_David_Dixon.jpg",
-    "Regions": "England,North West,North",
+    "Regions": "England,North West",
     "Locations": [
       {
         "PlaceName": "Manchester",
@@ -84,7 +84,7 @@
     "Longitude": -2.9916,
     "Url": "https://en.wikipedia.org/wiki/Liverpool",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/64/Albert_Dock%2C_Liverpool_-_DSC00940.JPG",
-    "Regions": "England,North West,North",
+    "Regions": "England,North West",
     "Locations": [
       {
         "latitude": 53.4084,
@@ -99,7 +99,7 @@
     "Longitude": -2.5879,
     "Url": "https://en.wikipedia.org/wiki/Bristol",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Wills_building_from_Cabot_Tower.JPG/1920px-Wills_building_from_Cabot_Tower.JPG",
-    "Regions": "England,South West,South",
+    "Regions": "England,South West",
     "Locations": [
       {
         "latitude": 51.4545,
@@ -129,7 +129,7 @@
     "Longitude": -1.6175,
     "Url": "https://en.wikipedia.org/wiki/Newcastle_upon_Tyne",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/58/Tyne_Bridge_%286710172163%29.jpg",
-    "Regions": "England,North East,North",
+    "Regions": "England,North East",
     "Locations": [
       {
         "latitude": 54.9783,
@@ -149,6 +149,81 @@
       {
         "latitude": 51.4816,
         "longitude": -3.1791
+      }
+    ]
+  },
+  {
+    "Id": 11,
+    "Name": "Oxford",
+    "Latitude": 51.752,
+    "Longitude": -1.2577,
+    "Url": "https://en.wikipedia.org/wiki/Oxford",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/St_Mary%27s_Church%2C_Radcliffe_Sq%2C_Oxford%2C_UK_-_Diliff.jpg/1024px-St_Mary%27s_Church%2C_Radcliffe_Sq%2C_Oxford%2C_UK_-_Diliff.jpg",
+    "Regions": "England,South",
+    "Locations": [
+      {
+        "latitude": 51.752,
+        "longitude": -1.2577
+      }
+    ]
+  },
+  {
+    "Id": 12,
+    "Name": "Southampton",
+    "Latitude": 50.9097,
+    "Longitude": -1.4044,
+    "Url": "https://en.wikipedia.org/wiki/Southampton",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/63/Bargate_2021.JPG",
+    "Regions": "England,South East",
+    "Locations": [
+      {
+        "latitude": 50.9097,
+        "longitude": -1.4044
+      }
+    ]
+  },
+  {
+    "Id": 13,
+    "Name": "Belfast",
+    "Latitude": 54.5973,
+    "Longitude": -5.9301,
+    "Url": "https://en.wikipedia.org/wiki/Belfast",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Belfast_City_Hall_2.jpg",
+    "Regions": "Northern Ireland",
+    "Locations": [
+      {
+        "latitude": 54.5973,
+        "longitude": -5.9301
+      }
+    ]
+  },
+  {
+    "Id": 14,
+    "Name": "Cambridge",
+    "Latitude": 52.2053,
+    "Longitude": 0.1218,
+    "Url": "https://en.wikipedia.org/wiki/Cambridge",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b4/KingsCollegeChapelWest.jpg",
+    "Regions": "England, East",
+    "Locations": [
+      {
+        "latitude": 52.2053,
+        "longitude": 0.1218
+      }
+    ]
+  },
+  {
+    "Id": 15,
+    "Name": "York",
+    "Latitude": 53.9590,
+    "Longitude": -1.0815,
+    "Url": "https://en.wikipedia.org/wiki/York",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/York_Micklegate_Bar_-_panoramio.jpg/1280px-York_Micklegate_Bar_-_panoramio.jpg",
+    "Regions": "England,North East",
+    "Locations": [
+      {
+        "latitude": 53.9590,
+        "longitude": -1.0815
       }
     ]
   }

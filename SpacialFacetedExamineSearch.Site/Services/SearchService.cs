@@ -108,7 +108,7 @@ namespace SpacialFacetedExamineSearch.Site.Services
                 }
             }
 
-            var result = searcher.Search(query.Query, 12, sort);
+            var result = searcher.Search(query.Query, searchModel.MaxResults, sort);
             //var result = searcher.Search(query.Query, searchModel.SearchQuery.MaxHits);
 
             var vals = result.ScoreDocs.Select(
