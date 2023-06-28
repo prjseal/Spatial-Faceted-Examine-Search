@@ -11,8 +11,9 @@
 
     <fieldset>
         <legend>GPS Coordinates:</legend>
-        <input type="text" name="lat" placeholder="52.95482" value="@Model.Latitude" />
-        <input type="text" name="long" placeholder="-1.15564" value="@Model.Longitude" />
+        <input type="text" name="lat" id="latitude" placeholder="52.95482" value="@Model.Latitude" />
+        <input type="text" name="long" id="longitude" placeholder="-1.15564" value="@Model.Longitude" />
+        <button type="button" onclick="getLocation()">Get My Location</button>
     </fieldset>
 
     @if(Model.FacetSets != null && Model.FacetSets.Any())
@@ -49,7 +50,7 @@
                 <img src="@imageUrl" alt="@name" >
                 <h2><a target="_blank" href="@url">@name</a></h2>
                 <p>Distance: @item.Distance.ToString("n1") miles</p>
-                <p>Regions: @regions</p>
+                <p>Regions: @string.Join(", ", regions.Replace('_',' ').Split(',', StringSplitOptions.RemoveEmptyEntries))</p>
             </div>
         }
     </div>

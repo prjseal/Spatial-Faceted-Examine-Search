@@ -58,7 +58,7 @@ public static class FacetHelper
             var facetValues = distinctFacets.Select(x => x.FacetValue).ToList();
             foreach (var item in facetValues)
             {
-                items.Add(new SelectListItem() { Text = item, Value = item, Selected = facetSet.SelectedValues.Contains(item) });
+                items.Add(new SelectListItem() { Text = item.Replace('_', ' '), Value = item, Selected = facetSet.SelectedValues.Contains(item) });
             }
             facetSet.FacetValues = items;
         }

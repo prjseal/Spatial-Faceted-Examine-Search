@@ -6,7 +6,7 @@
     "Longitude": -0.1278,
     "Url": "https://en.wikipedia.org/wiki/London",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/1200px-London_Skyline_%28125508655%29.jpeg",
-    "Regions": "England, South East",
+    "Regions": "England,South East,South",
     "Locations": [
       {
         "latitude": 51.5074,
@@ -21,7 +21,7 @@
     "Longitude": -1.8904,
     "Url": "https://en.wikipedia.org/wiki/Birmingham",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Selfridges_Birmingham_from_Park_Street_car_park.jpg/1024px-Selfridges_Birmingham_from_Park_Street_car_park.jpg",
-    "Regions": "England, West Midlands",
+    "Regions": "England,West Midlands,Midlands",
     "Locations": [
       {
         "latitude": 52.4862,
@@ -36,7 +36,7 @@
     "Longitude": -2.2441,
     "Url": "https://en.wikipedia.org/wiki/Manchester",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Tower_Blocks_over_Knott_Mill%2C_geograph_6866152_by_David_Dixon.jpg",
-    "Regions": "England, North West",
+    "Regions": "England,North West,North",
     "Locations": [
       {
         "PlaceName": "Manchester",
@@ -84,7 +84,7 @@
     "Longitude": -2.9916,
     "Url": "https://en.wikipedia.org/wiki/Liverpool",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/64/Albert_Dock%2C_Liverpool_-_DSC00940.JPG",
-    "Regions": "England, North West",
+    "Regions": "England,North West,North",
     "Locations": [
       {
         "latitude": 53.4084,
@@ -99,7 +99,7 @@
     "Longitude": -2.5879,
     "Url": "https://en.wikipedia.org/wiki/Bristol",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Wills_building_from_Cabot_Tower.JPG/1920px-Wills_building_from_Cabot_Tower.JPG",
-    "Regions": "England, South West",
+    "Regions": "England,South West,South",
     "Locations": [
       {
         "latitude": 51.4545,
@@ -114,7 +114,7 @@
     "Longitude": -1.5491,
     "Url": "https://en.wikipedia.org/wiki/Leeds",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Civic_Hall_Leeds_West_Yorkshire.jpg/1280px-Civic_Hall_Leeds_West_Yorkshire.jpg",
-    "Regions": "England, North East",
+    "Regions": "England,North",
     "Locations": [
       {
         "latitude": 53.8008,
@@ -129,7 +129,7 @@
     "Longitude": -1.6175,
     "Url": "https://en.wikipedia.org/wiki/Newcastle_upon_Tyne",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/58/Tyne_Bridge_%286710172163%29.jpg",
-    "Regions": "England, North East",
+    "Regions": "England,North East,North",
     "Locations": [
       {
         "latitude": 54.9783,
