@@ -14,11 +14,8 @@ To get the search working in your project. In the Settings, go to Examine Manage
 
 Now when you go to the front end of the site you can search using Lat and Long values to find a location.
 
-It is currently set to a 50 mile radius and there are only Birmingham, London and Amsterdam in there.
-
 ## Left to do
 
-I will be coming back to this to do the faceted search. 
 It might not be the most efficient but it will work which is the main thing, and if you see improvements to be made please feel free to contribute.
 
 ## Credits
