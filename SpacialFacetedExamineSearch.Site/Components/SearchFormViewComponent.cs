@@ -26,7 +26,14 @@ namespace SpacialFacetedExamineSearch.Site.Components
             model.SearchQuery = new SearchService.SearchQuery() { Phrase = searchTerm };
             model.Latitude = QueryStringHelper.GetValueFromQueryString("lat", url);
             model.Longitude = QueryStringHelper.GetValueFromQueryString("long", url);
-            model.RadiusInMiles = int.Parse(QueryStringHelper.GetValueFromQueryString("distance", url, "50"));
+            model.RadiusInMiles = 1000;
+            model.RestrictResultsToDistance = false;
+            var distanceValue = QueryStringHelper.GetValueFromQueryString("distance", url);
+            if(!string.IsNullOrWhiteSpace(distanceValue) && int.TryParse(distanceValue, out var distance))
+            {
+                model.RestrictResultsToDistance = true;
+                model.RadiusInMiles = distance;
+            }
 
             Dictionary<string, Tuple<DisplayType, char>> propertySettings = GetPropertySettings();
 

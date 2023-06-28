@@ -16,5 +16,6 @@ namespace SpacialFacetedExamineSearch.Site.Models
         public long TotalItemCount { get; set; }
         public int MaxResults { get; set; }
         public int RadiusInMiles { get; set; }
+        public bool RestrictResultsToDistance { get; set; }
     }
 }

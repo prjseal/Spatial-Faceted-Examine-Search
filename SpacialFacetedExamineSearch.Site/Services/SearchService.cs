@@ -98,13 +98,14 @@ namespace SpacialFacetedExamineSearch.Site.Services
                                 )
                             );
 
+                var shouldOrMust = searchModel.RestrictResultsToDistance ? Occur.MUST : Occur.SHOULD;
+                
                 geoQuery = new BooleanQuery();
-                geoQuery.Add(circleQuery, Occur.SHOULD);
-
+                geoQuery.Add(circleQuery, shouldOrMust);
 
                 if (geoQuery != null)
                 {
-                    query.Query.Add(geoQuery, Occur.SHOULD);
+                    query.Query.Add(geoQuery, shouldOrMust);
                 }
             }
 

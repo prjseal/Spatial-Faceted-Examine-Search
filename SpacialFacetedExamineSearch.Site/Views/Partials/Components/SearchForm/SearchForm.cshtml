@@ -6,13 +6,17 @@
 <form action="/search/" method="GET">
     <fieldset>
         <legend>Place name:</legend>
+        <label for="searchTerm">Search term:</label>
         <input type="text" name="searchTerm" placeholder="Search term..." value="@Model.SearchQuery.Phrase" />
-        <input type="text" name="distance" placeholder="50" value="@Model.SearchQuery.Phrase" />
+        <label for="distance">Distance in miles:</label>
+        <input type="text" name="distance" placeholder="50" value="@(Model.RestrictResultsToDistance ? Model.RadiusInMiles : "")" />
     </fieldset>
 
     <fieldset>
         <legend>GPS Coordinates:</legend>
+        <label for="latitude">Latitude:</label>
         <input type="text" name="lat" id="latitude" placeholder="52.95482" value="@Model.Latitude" />
+        <label for="longitude">Longitude:</label>
         <input type="text" name="long" id="longitude" placeholder="-1.15564" value="@Model.Longitude" />
         <button type="button" onclick="getLocation()">Get My Location 📍</button>
     </fieldset>
@@ -50,9 +54,9 @@
             var longitude = @item.Doc.GetValues("longitude").FirstOrDefault();
 
             <div>
-                <img loading="lazy" src="@imageUrl" alt="@name" >
-                <h2><a target="_blank" href="@url">@name</a></h2>
-                <p><a href="/search/?lat=@(latitude)&long=@(longitude)">Search from this location 🔍</a></p>
+                <a target="_blank" href="@url" title="Read more about @name"><img loading="lazy" src="@imageUrl" alt="A picture of a recognisable place in @(name)" ></a>
+                <h2><a target="_blank" href="@url" title="Read more about @name">@name</a></h2>
+                <p><a href="/search/?lat=@(latitude)&long=@(longitude)" title="A link to search for results from @name">Search from this location 🔍</a></p>
                 <p>Distance: @item.Distance.ToString("n1") miles</p>
                 <p>Regions: @string.Join(", ", regions.Replace('_',' ').Split(',', StringSplitOptions.RemoveEmptyEntries))</p>
             </div>
