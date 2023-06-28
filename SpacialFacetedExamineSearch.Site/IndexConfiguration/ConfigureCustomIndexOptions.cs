@@ -33,7 +33,7 @@ namespace SpacialFacetedExamineSearch.Site.IndexConfiguration
                         new FieldDefinition("longitude", FieldDefinitionTypes.Double),
                         new FieldDefinition("url", FieldDefinitionTypes.FullText),
                         new FieldDefinition("imageUrl", FieldDefinitionTypes.FullText),
-                        new FieldDefinition("languages", FieldDefinitionTypes.FullTextSortable),
+                        new FieldDefinition("regions", FieldDefinitionTypes.FullTextSortable),
                         new FieldDefinition("locations", "shape"),
                         new FieldDefinition("latlng", FieldDefinitionTypes.Raw)
                 );

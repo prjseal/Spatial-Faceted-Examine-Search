@@ -16,7 +16,5 @@ namespace SpacialFacetedExamineSearch.Site.Models
         public long TotalItemCount { get; set; }
         public int MaxResults { get; set; }
         public int RadiusInMiles { get; set; }
-        public string[] SelectedLanguages { get; set; }
-        public List<SelectListItem> LanguageOptions { get; set; }
     }
 }

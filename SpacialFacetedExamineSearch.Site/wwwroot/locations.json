@@ -6,7 +6,7 @@
     "Longitude": -0.1278,
     "Url": "https://en.wikipedia.org/wiki/London",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/1200px-London_Skyline_%28125508655%29.jpeg",
-    "Languages": "English French German",
+    "Regions": "England, South East",
     "Locations": [
       {
         "latitude": 51.5074,
@@ -21,7 +21,7 @@
     "Longitude": -1.8904,
     "Url": "https://en.wikipedia.org/wiki/Birmingham",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Selfridges_Birmingham_from_Park_Street_car_park.jpg/1024px-Selfridges_Birmingham_from_Park_Street_car_park.jpg",
-    "Languages": "English Spanish French",
+    "Regions": "England, West Midlands",
     "Locations": [
       {
         "latitude": 52.4862,
@@ -36,7 +36,7 @@
     "Longitude": -2.2441,
     "Url": "https://en.wikipedia.org/wiki/Manchester",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Tower_Blocks_over_Knott_Mill%2C_geograph_6866152_by_David_Dixon.jpg",
-    "Languages": "English",
+    "Regions": "England, North West",
     "Locations": [
       {
         "PlaceName": "Manchester",
@@ -52,7 +52,7 @@
     "Longitude": -3.1883,
     "Url": "https://en.wikipedia.org/wiki/Edinburgh",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Evening_view_across_Carlton_Hill_towards_the_Castle_%2813164472813%29.jpg/1920px-Evening_view_across_Carlton_Hill_towards_the_Castle_%2813164472813%29.jpg",
-    "Languages": "English",
+    "Regions": "Scotland",
     "Locations": [
       {
         "PlaceName": "Edinburgh",
@@ -68,12 +68,87 @@
     "Longitude": -4.2518,
     "Url": "https://en.wikipedia.org/wiki/Glasgow",
     "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/39/University_of_Glasgow_Gilbert_Scott_Building_-_Feb_2008.jpg",
-    "Languages": "English",
+    "Regions": "Scotland",
     "Locations": [
       {
         "PlaceName": "Glasgow",
         "Latitude": 55.8642,
         "Longitude": -4.2518
+      }
+    ]
+  },
+  {
+    "Id": 6,
+    "Name": "Liverpool",
+    "Latitude": 53.4084,
+    "Longitude": -2.9916,
+    "Url": "https://en.wikipedia.org/wiki/Liverpool",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/64/Albert_Dock%2C_Liverpool_-_DSC00940.JPG",
+    "Regions": "England, North West",
+    "Locations": [
+      {
+        "latitude": 53.4084,
+        "longitude": -2.9916
+      }
+    ]
+  },
+  {
+    "Id": 7,
+    "Name": "Bristol",
+    "Latitude": 51.4545,
+    "Longitude": -2.5879,
+    "Url": "https://en.wikipedia.org/wiki/Bristol",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Wills_building_from_Cabot_Tower.JPG/1920px-Wills_building_from_Cabot_Tower.JPG",
+    "Regions": "England, South West",
+    "Locations": [
+      {
+        "latitude": 51.4545,
+        "longitude": -2.5879
+      }
+    ]
+  },
+  {
+    "Id": 8,
+    "Name": "Leeds",
+    "Latitude": 53.8008,
+    "Longitude": -1.5491,
+    "Url": "https://en.wikipedia.org/wiki/Leeds",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Civic_Hall_Leeds_West_Yorkshire.jpg/1280px-Civic_Hall_Leeds_West_Yorkshire.jpg",
+    "Regions": "England, North East",
+    "Locations": [
+      {
+        "latitude": 53.8008,
+        "longitude": -1.5491
+      }
+    ]
+  },
+  {
+    "Id": 9,
+    "Name": "Newcastle",
+    "Latitude": 54.9783,
+    "Longitude": -1.6175,
+    "Url": "https://en.wikipedia.org/wiki/Newcastle_upon_Tyne",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/58/Tyne_Bridge_%286710172163%29.jpg",
+    "Regions": "England, North East",
+    "Locations": [
+      {
+        "latitude": 54.9783,
+        "longitude": -1.6175
+      }
+    ]
+  },
+  {
+    "Id": 10,
+    "Name": "Cardiff",
+    "Latitude": 51.4816,
+    "Longitude": -3.1791,
+    "Url": "https://en.wikipedia.org/wiki/Cardiff",
+    "ImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Cardiff_Central_station_%2826526139271%29.jpg/1920px-Cardiff_Central_station_%2826526139271%29.jpg",
+    "Regions": "Wales",
+    "Locations": [
+      {
+        "latitude": 51.4816,
+        "longitude": -3.1791
       }
     ]
   }

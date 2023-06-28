@@ -43,13 +43,13 @@
             var name = @item.Doc.GetValues("name").FirstOrDefault();
             var imageUrl = @item.Doc.GetValues("imageUrl").FirstOrDefault();
             var url = @item.Doc.GetValues("url").FirstOrDefault();
-            var languages = @item.Doc.GetValues("languages").FirstOrDefault();
+            var regions = @item.Doc.GetValues("regions").FirstOrDefault();
 
             <div>
                 <img src="@imageUrl" alt="@name" >
                 <h2><a target="_blank" href="@url">@name</a></h2>
                 <p>Distance: @item.Distance.ToString("n1") miles</p>
-                <p>Languages: @languages</p>
+                <p>Regions: @regions</p>
             </div>
         }
     </div>

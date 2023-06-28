@@ -21,7 +21,7 @@ namespace SpacialFacetedExamineSearch.Site.ValueSetBuilders
                     ["locations"] = item.Locations,
                     ["url"] = item.Url,
                     ["imageUrl"] = item.ImageUrl,
-                    ["languages"] = item.Languages
+                    ["regions"] = item.Regions
                 };
                 var valueSet = new ValueSet(item.Id.ToString(), "locationItems", indexValues);
                 yield return valueSet;

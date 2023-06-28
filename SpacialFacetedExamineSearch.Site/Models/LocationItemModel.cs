@@ -11,6 +11,6 @@ namespace SpacialFacetedExamineSearch.Site.Models
         public IEnumerable<JObject> Locations { get; set; }
         public string Url { get; set; }
         public string ImageUrl { get; set; }
-        public string Languages { get; set; }
+        public string Regions { get; set; }
     }
 }
