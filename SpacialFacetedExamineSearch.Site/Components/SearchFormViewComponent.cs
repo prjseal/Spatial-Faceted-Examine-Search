@@ -1,7 +1,9 @@
 ﻿using MailKit.Search;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SpacialFacetedExamineSearch.Site.Enums;
 using SpacialFacetedExamineSearch.Site.EqulaityComparers;
+using SpacialFacetedExamineSearch.Site.Facets;
 using SpacialFacetedExamineSearch.Site.Helpers;
 using SpacialFacetedExamineSearch.Site.Models;
 using SpacialFacetedExamineSearch.Site.Services;
@@ -19,42 +21,74 @@ namespace SpacialFacetedExamineSearch.Site.Components
             _searchService = searchService;
         }
 
-        public IViewComponentResult Invoke(string url) {
+        public IViewComponentResult Invoke(string url)
+        {
 
             var model = new FacetedSearchModel();
             var searchTerm = QueryStringHelper.GetValueFromQueryString("searchTerm", url);
-            model.SearchQuery = new SearchService.SearchQuery() { Phrase = searchTerm};
+            model.SearchQuery = new SearchService.SearchQuery() { Phrase = searchTerm };
             model.Latitude = QueryStringHelper.GetValueFromQueryString("lat", url);
             model.Longitude = QueryStringHelper.GetValueFromQueryString("long", url);
             model.RadiusInMiles = int.Parse(QueryStringHelper.GetValueFromQueryString("distance", url, "50"));
-            model.PageResults = _searchService.Search(model);
+
+            Dictionary<string, DisplayType> propertyDisplayTypes = GetPropertyDisplayTypes();
+
+            model.FacetSets = GetFacetSets(url, propertyDisplayTypes);
+
 
             var allResults = _searchService.Search(new FacetedSearchModel() { MaxResults = 1000 });
-            var allFacets = FacetHelper.GetFacetItemsFromResults(new string[] { "languages" }, allResults);
+            var allFacets = FacetHelper.GetFacetItemsFromResults(propertyDisplayTypes.Select(x => x.Key), allResults);
 
             var distinctFacets = allFacets.Distinct(new FacetItemComparer()).OrderBy(x => x.PropertyAlias).ThenBy(y => y.FacetValue);
 
-            var language = QueryStringHelper.GetValueFromQueryString("language", url);
-            model.SelectedLanguages = QueryStringHelper.GetValueFromQueryString("language", url)?.Split(',') ?? new string[] { } ;
+            model.PageResults = _searchService.Search(model);
 
-            var facets = new Dictionary<string, List<string>>();
-            var currentPropertyAlias = "";
-
-            var propertyAliases = distinctFacets.Select(x => x.PropertyAlias).Distinct();
-            foreach ( var alias in propertyAliases)
-            {
-                facets.Add(alias, distinctFacets.Select(x => x.FacetValue).ToList());
-            }
-
-            model.LanguageOptions = new List<SelectListItem>()
-            {
-                new SelectListItem() { Text = "English", Value = "english", Selected = model.SelectedLanguages.Contains("english") },
-                new SelectListItem() { Text = "German", Value = "german", Selected = model.SelectedLanguages.Contains("german") },
-                new SelectListItem() { Text = "Spanish", Value = "spanish", Selected = model.SelectedLanguages.Contains("spanish") },
-                new SelectListItem() { Text = "French", Value = "french", Selected = model.SelectedLanguages.Contains("french") }
-            };
+            SetFacetValues(model, distinctFacets);
 
             return View("~/Views/Partials/Components/SearchForm/SearchForm.cshtml", model);
+        }
+
+        private static Dictionary<string, DisplayType> GetPropertyDisplayTypes()
+        {
+            Dictionary<string, DisplayType> propertyDisplayTypes = new Dictionary<string, DisplayType>();
+            propertyDisplayTypes.Add("languages", DisplayType.CheckBoxList);
+            return propertyDisplayTypes;
+        }
+
+        private static void SetFacetValues(FacetedSearchModel model, IOrderedEnumerable<FacetItem> distinctFacets)
+        {
+            if (model.FacetSets == null || !model.FacetSets.Any() || distinctFacets == null || !distinctFacets.Any()) return;
+
+            foreach (var facetSet in model.FacetSets)
+            {
+                var items = new List<SelectListItem>() { };
+                var facetValues = distinctFacets.Select(x => x.FacetValue).ToList();
+                foreach (var item in facetValues)
+                {
+                    items.Add(new SelectListItem() { Text = item, Value = item, Selected = facetSet.SelectedValues.Contains(item) });
+                }
+                facetSet.FacetValues = items;
+            }
+        }
+
+        private static List<FacetSet> GetFacetSets(string url, Dictionary<string, DisplayType> propertyDisplayTypes)
+        {
+            var facetSets = new List<FacetSet>();
+            var propertyAliases = propertyDisplayTypes.Select(x => x.Key);
+            foreach (var alias in propertyAliases)
+            {
+                var selectedValues = QueryStringHelper.GetValueFromQueryString(alias, url)?.Split(',') ?? new string[] { };
+
+                facetSets.Add(new FacetSet()
+                {
+                    PropertyAlias = alias,
+                    FacetValues = null,
+                    DisplayType = propertyDisplayTypes[alias],
+                    SelectedValues = selectedValues
+                });
+            }
+
+            return facetSets;
         }
     }
 }

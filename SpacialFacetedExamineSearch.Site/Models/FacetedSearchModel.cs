@@ -11,7 +11,7 @@ namespace SpacialFacetedExamineSearch.Site.Models
         public string SearchTerm { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
-        public Dictionary<string, List<string>>? Facets { get; set; }
+        public List<FacetSet>? FacetSets { get; set; }
         public IEnumerable<SearchResultItem>? PageResults { get; set; }
         public long TotalItemCount { get; set; }
         public int MaxResults { get; set; }

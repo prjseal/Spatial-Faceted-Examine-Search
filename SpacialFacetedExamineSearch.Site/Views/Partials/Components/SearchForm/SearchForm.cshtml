@@ -15,26 +15,28 @@
         <input type="text" name="long" placeholder="-1.15564" value="@Model.Longitude" />
     </fieldset>
 
-    <fieldset>
-        <legend>Select languages:</legend>
-
-        @foreach(var languageOption in Model.LanguageOptions)
+    @if(Model.FacetSets != null && Model.FacetSets.Any())
+    {
+        foreach(var facetSet in Model.FacetSets)
         {
-            <div>
-                <input type="checkbox" checked="@(languageOption.Selected ? "checked" : null)" id="language_@(languageOption.Value)" name="language" value="@languageOption.Value">
-                <label for="language_@(languageOption.Value)">@languageOption.Text</label>
-            </div>
+            <fieldset>
+                <legend>@facetSet.PropertyAlias:</legend>
+
+                @foreach (var option in facetSet.FacetValues)
+                {
+                    <div>
+                        <input type="checkbox" checked="@(option.Selected ? "checked" : null)" id="@(facetSet.PropertyAlias)_@(option.Value)" name="@facetSet.PropertyAlias" value="@option.Value">
+                        <label for="@(facetSet.PropertyAlias)_@(option.Value)">@option.Text</label>
+                    </div>
+                }
+            </fieldset>       
         }
-    </fieldset>
-
-
+    }
     <button type="submit">Search</button>
 </form>
 
 @if (Model?.PageResults?.Any() ?? false)
 {
-    
-
     <div class="container">
         @foreach (var item in Model.PageResults)
         {
