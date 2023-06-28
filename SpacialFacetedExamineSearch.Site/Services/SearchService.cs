@@ -3,16 +3,11 @@ using Examine.Lucene.Providers;
 using Examine.Lucene.Search;
 using Examine.Search;
 using Lucene.Net.Documents;
-using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Spatial.Queries;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using SpacialFacetedExamineSearch.Site.FieldValueTypes;
-using SpacialFacetedExamineSearch.Site.Helpers;
 using SpacialFacetedExamineSearch.Site.Models;
 using Spatial4n.Distance;
-using System.Net;
 using System.Text.RegularExpressions;
 using Umbraco.Cms.Core;
 
@@ -62,11 +57,17 @@ namespace SpacialFacetedExamineSearch.Site.Services
                 filteredQuery
                     .And()
                     .GroupedAnd(SearchFields, searchModel.SearchQuery.Terms);
+            }
 
-                if (searchModel.SelectedLanguages != null && searchModel.SelectedLanguages.Any())
+            if(searchModel?.FacetSets != null && searchModel.FacetSets.Any())
+            {
+                foreach(var facetSet in searchModel.FacetSets)
                 {
-                    filteredQuery.And()
-                    .GroupedAnd(new[] { "languages" }, searchModel.SelectedLanguages);
+                    if (facetSet.SelectedValues != null && facetSet.SelectedValues.Any())
+                    {
+                        filteredQuery.And()
+                        .GroupedOr(new[] { facetSet.PropertyAlias }, facetSet.SelectedValues);
+                    }
                 }
             }
 

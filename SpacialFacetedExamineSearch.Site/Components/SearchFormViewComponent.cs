@@ -77,7 +77,7 @@ namespace SpacialFacetedExamineSearch.Site.Components
             var propertyAliases = propertyDisplayTypes.Select(x => x.Key);
             foreach (var alias in propertyAliases)
             {
-                var selectedValues = QueryStringHelper.GetValueFromQueryString(alias, url)?.Split(',') ?? new string[] { };
+                var selectedValues = QueryStringHelper.GetValueFromQueryString(alias, url)?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? new string[] { };
 
                 facetSets.Add(new FacetSet()
                 {
