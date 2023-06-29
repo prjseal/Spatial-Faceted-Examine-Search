@@ -10,10 +10,13 @@ namespace SpacialFacetedExamineSearch.Site.IndexPopulators
     public class LocationsIndexPopulator : IndexPopulator
     {
         private readonly LocationsValueSetBuilder _todoValueSetBuilder;
-        public LocationsIndexPopulator(LocationsValueSetBuilder productValueSetBuilder)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public LocationsIndexPopulator(LocationsValueSetBuilder productValueSetBuilder,
+            IWebHostEnvironment webHostEnvironment)
         {
             _todoValueSetBuilder = productValueSetBuilder;
-
+            _webHostEnvironment = webHostEnvironment;
             //We're telling this populator that it's responsible for populating only our index
 
             RegisterIndex("LocationsIndex");
@@ -22,13 +25,13 @@ namespace SpacialFacetedExamineSearch.Site.IndexPopulators
         {
             using (WebClient httpClient = new WebClient())
             {
-                var jsonData =
+                var domain = _webHostEnvironment.EnvironmentName == "Development"
+                    ? "https://localhost:44380"
+                    : "https://sfes.umbhost.dev";
 
-                httpClient.DownloadString("https://localhost:44380/locations.json");
+                var jsonData = httpClient.DownloadString(domain + "/locations.json");
 
-                var data =
-
-                JsonConvert.DeserializeObject<IEnumerable<LocationItemModel>>(jsonData);
+                var data = JsonConvert.DeserializeObject<IEnumerable<LocationItemModel>>(jsonData);
 
                 if (data != null)
                 {
