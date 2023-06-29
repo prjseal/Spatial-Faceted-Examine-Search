@@ -6,61 +6,72 @@
     Layout = null;
 }
 
-<style>
-    .container {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr;
-        gap: 20px 10px;
-        grid-template-areas:
-            ". . . ."
-            ". . . ."
-            ". . . .";
-    }
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+    <title>Spatial and Faceted Examine Search</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="An example site using Examine and Lucene spatial and faceted search" />
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr;
+            gap: 20px 10px;
+            grid-template-areas:
+                ". . . ."
+                ". . . ."
+                ". . . .";
+        }
 
-    .container img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        object-position: bottom;
-        border-radius: 6px;
-        box-shadow:3px 3px 10px darkgrey;
-    }
-</style>
+            .container img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                object-position: bottom;
+                border-radius: 6px;
+                box-shadow: 3px 3px 10px darkgrey;
+            }
+    </style>
+</head>
+<body>
 
-@await Component.InvokeAsync("SearchForm", Context.Request.GetDisplayUrl())
+    @await Component.InvokeAsync("SearchForm", Context.Request.GetDisplayUrl())
 
-  <script>
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-      } else {
-        alert("Geolocation is not supported by this browser.");
-      }
-    }
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
 
-    function showPosition(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
 
-      document.getElementById("latitude").value = latitude;
-      document.getElementById("longitude").value = longitude;
-    }
+            document.getElementById("latitude").value = latitude;
+            document.getElementById("longitude").value = longitude;
+        }
 
-    function showError(error) {
-      switch (error.code) {
-        case error.PERMISSION_DENIED:
-          alert("User denied the request for Geolocation.");
-          break;
-        case error.POSITION_UNAVAILABLE:
-          alert("Location information is unavailable.");
-          break;
-        case error.TIMEOUT:
-          alert("The request to get user location timed out.");
-          break;
-        case error.UNKNOWN_ERROR:
-          alert("An unknown error occurred.");
-          break;
-      }
-    }
-  </script>
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
