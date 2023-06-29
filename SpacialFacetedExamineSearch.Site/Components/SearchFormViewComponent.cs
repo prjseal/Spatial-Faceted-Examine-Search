@@ -45,7 +45,7 @@ namespace SpacialFacetedExamineSearch.Site.Components
 
             var distinctFacets = allFacets.Distinct(new FacetItemComparer()).OrderBy(x => x.PropertyAlias).ThenBy(y => y.FacetValue);
 
-            model.MaxResults = 12;
+            model.MaxResults = 100;
             model.PageResults = _searchService.Search(model);
 
             FacetHelper.SetFacetValues(model, distinctFacets);

@@ -25,7 +25,7 @@ namespace SpacialFacetedExamineSearch.Site.IndexPopulators
         {
             using (WebClient httpClient = new WebClient())
             {
-                var domain = _webHostEnvironment.EnvironmentName == "Development"
+                var domain = _webHostEnvironment.IsDevelopment()
                     ? "https://localhost:44380"
                     : "https://sfes.umbhost.dev";
 
