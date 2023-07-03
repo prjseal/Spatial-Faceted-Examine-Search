@@ -5,6 +5,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Util;
 using Microsoft.Extensions.Options;
 using SpacialFacetedExamineSearch.Site.ValueTypeFactories;
+using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Configuration.Models;
 
 namespace SpacialFacetedExamineSearch.Site.IndexConfiguration
@@ -13,7 +14,8 @@ namespace SpacialFacetedExamineSearch.Site.IndexConfiguration
     IConfigureNamedOptions<LuceneDirectoryIndexOptions>
     {
         private readonly ILoggerFactory _loggerFactory;
-        private readonly IOptions<IndexCreatorSettings> _settings;
+        private readonly IOptions<IndexCreatorSettings> _settings; 
+
         public ConfigureCustomIndexOptions(IOptions<IndexCreatorSettings> settings, ILoggerFactory loggerFactory)
         {
             _settings = settings;

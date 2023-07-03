@@ -1,12 +1,21 @@
 ﻿using Examine;
 using SpacialFacetedExamineSearch.Site.Models;
 using System.Globalization;
+using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Infrastructure.Examine;
 
 namespace SpacialFacetedExamineSearch.Site.ValueSetBuilders
 {
     public class LocationsValueSetBuilder : IValueSetBuilder<LocationItemModel>
     {
+
+        private readonly IAppPolicyCache _runtimeCache;
+
+        public LocationsValueSetBuilder(IAppPolicyCache runtimeCache)
+        {
+            _runtimeCache = runtimeCache;
+        }
+
         public IEnumerable<ValueSet> GetValueSets(params LocationItemModel[] data)
         {
             foreach (var item in data)
@@ -26,6 +35,8 @@ namespace SpacialFacetedExamineSearch.Site.ValueSetBuilders
                 var valueSet = new ValueSet(item.Id.ToString(), "locationItems", indexValues);
                 yield return valueSet;
             }
+
+            _runtimeCache.ClearByKey("DistinctFacets");
         }
     }
 }

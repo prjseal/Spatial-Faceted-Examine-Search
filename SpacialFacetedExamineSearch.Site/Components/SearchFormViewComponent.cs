@@ -4,6 +4,7 @@ using SpacialFacetedExamineSearch.Site.EqulaityComparers;
 using SpacialFacetedExamineSearch.Site.Helpers;
 using SpacialFacetedExamineSearch.Site.Models;
 using SpacialFacetedExamineSearch.Site.Services;
+using Umbraco.Cms.Core.Cache;
 
 namespace SpacialFacetedExamineSearch.Site.Components
 {
@@ -12,10 +13,12 @@ namespace SpacialFacetedExamineSearch.Site.Components
     {
 
         private readonly ISearchService _searchService;
+        private readonly IAppPolicyCache _runtimeCache;
 
-        public SearchFormViewComponent(ISearchService searchService)
+        public SearchFormViewComponent(ISearchService searchService, AppCaches appCaches)
         {
             _searchService = searchService;
+            _runtimeCache = appCaches.RuntimeCache;
         }
 
         public IViewComponentResult Invoke(string url)
@@ -29,7 +32,7 @@ namespace SpacialFacetedExamineSearch.Site.Components
             model.RadiusInMiles = 1000;
             model.RestrictResultsToDistance = false;
             var distanceValue = QueryStringHelper.GetValueFromQueryString("distance", url);
-            if(!string.IsNullOrWhiteSpace(distanceValue) && int.TryParse(distanceValue, out var distance))
+            if (!string.IsNullOrWhiteSpace(distanceValue) && int.TryParse(distanceValue, out var distance))
             {
                 model.RestrictResultsToDistance = true;
                 model.RadiusInMiles = distance;
@@ -39,11 +42,7 @@ namespace SpacialFacetedExamineSearch.Site.Components
 
             model.FacetSets = FacetHelper.GetFacetSets(url, propertySettings);
 
-
-            var allResults = _searchService.Search(new FacetedSearchModel() { MaxResults = 1000 });
-            var allFacets = FacetHelper.GetFacetItemsFromResults(propertySettings, allResults);
-
-            var distinctFacets = allFacets.Distinct(new FacetItemComparer()).OrderBy(x => x.PropertyAlias).ThenBy(y => y.FacetValue);
+            IOrderedEnumerable<Facets.FacetItem> distinctFacets = GetDistinctFacetsFromCache(propertySettings);
 
             model.MaxResults = 100;
             model.PageResults = _searchService.Search(model);
@@ -51,6 +50,20 @@ namespace SpacialFacetedExamineSearch.Site.Components
             FacetHelper.SetFacetValues(model, distinctFacets);
 
             return View("~/Views/Partials/Components/SearchForm/SearchForm.cshtml", model);
+        }
+
+        private IOrderedEnumerable<Facets.FacetItem> GetDistinctFacetsFromCache(Dictionary<string, Tuple<DisplayType, char>> propertySettings)
+        {
+            return _runtimeCache.GetCacheItem($"DistinctFacets", () => GetDistinctFacetsFromAllResults(propertySettings), TimeSpan.FromMinutes(60));
+        }
+
+        private IOrderedEnumerable<Facets.FacetItem> GetDistinctFacetsFromAllResults(Dictionary<string, Tuple<DisplayType, char>> propertySettings)
+        {
+            var allResults = _searchService.Search(new FacetedSearchModel() { MaxResults = 1000 });
+            var allFacets = FacetHelper.GetFacetItemsFromResults(propertySettings, allResults);
+
+            var distinctFacets = allFacets.Distinct(new FacetItemComparer()).OrderBy(x => x.PropertyAlias).ThenBy(y => y.FacetValue);
+            return distinctFacets;
         }
 
         private static Dictionary<string, Tuple<DisplayType, char>> GetPropertySettings()
