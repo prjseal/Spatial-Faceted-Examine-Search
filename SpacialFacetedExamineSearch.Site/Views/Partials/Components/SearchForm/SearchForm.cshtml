@@ -25,7 +25,7 @@
     {
         foreach(var facetSet in Model.FacetSets)
         {
-            <fieldset>
+            <fieldset class="facets">
                 <legend>@facetSet.PropertyAlias:</legend>
 
                 @foreach (var option in facetSet.FacetValues)
@@ -38,7 +38,7 @@
             </fieldset>       
         }
     }
-    <button type="submit">Search</button>
+    <button type="submit" class="submit">Search</button>
 </form>
 
 @if (Model?.PageResults?.Any() ?? false)
