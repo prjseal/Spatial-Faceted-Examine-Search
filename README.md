@@ -3,6 +3,14 @@
 This is a proof of concept project. It looks very basic, there is just a search page.
 The purpose of the project is to try and get spatial searching (distance) and also faceted searching.
 
+## Demo Site
+
+There is a demo site to show this code working
+
+[https://sfes.umbhost.dev/](https://sfes.umbhost.dev/)
+
+Thanks to Aaron from [Umbhost](https://umbhost.net/) for hosting it for free for us.
+
 ## Setting up the project
 
 When you run the project it should use unattended install to install a SQLite database
