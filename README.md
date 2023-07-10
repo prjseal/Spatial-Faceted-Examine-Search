@@ -1,3 +1,5 @@
+<img style="height:30px; width: auto;" src="https://github.com/prjseal/Spatial-Faceted-Examine-Search/assets/9142936/d1d01f9f-0059-45ac-9d85-a7e423da8f03" />
+
 # Spatial Faceted Examine Search
 
 This is a proof of concept project. It looks very basic, there is just a search page.
